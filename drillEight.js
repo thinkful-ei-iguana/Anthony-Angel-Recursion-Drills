@@ -1,34 +1,36 @@
-function mazeSolver (maze) {
-  this.maze = maze
-
-  this.traverse = function(column, row) {
-    if(this.maze[column][row] == 'e'){
-      console.log("Maze Solved")
-    } else if(this.maze[column][row]== ' ') {
-      console.log("we are moving on a valid path")
-        this.maze[column][row] = '.'
-        if(this.maze.column != ' ' ) {
-          this.traverse(column == ' ', row);
-        }
-        if( this.maze.row != ' ' ){
-          this.traverse(column, row == ' ');
-        }
-        if(column != ' '){
-          this.traverse(column == ' ', row)
-        }
-        if(row != ' '){
-          this.traverse(column, row == ' ' )
-        }
-    }
-  }
-}
-
-let mySmallMaze = [
-  ['s', ' ', ' '],
-  [' ', '*', ' '],
+const maze = [
+  [' ', ' ', '*'],
+  ['*', ' ', '*'],
   [' ', ' ', 'e']
 ];
-let ms = new mazeSolver(mySmallMaze);
-ms.traverse(0,'s')
 
-console.log(ms.traverse(0, 's'))
+function mazeSolution(maze, row, column, path) {
+  if (maze[row][column] === 'e') {
+    return path;
+  }
+
+  if (
+    maze[row][column] === '*' ||
+    column > maze.length ||
+    row > maze.length ||
+    column < 0 ||
+    row < 0
+  ) {
+    return false;
+  }
+
+  if (maze[row][column] === '') {
+    if (maze[row][column + 1] === '') {
+      return 'R' + mazeSolution(maze, row, column++);
+    } else if (maze[row][column - 1] === '') {
+      return 'L' + mazeSolution(maze, row, --column);
+    } else if (maze[row - 1][column] === '') {
+      return 'U' + mazeSolution(maze, --row, column);
+    } else if (maze[row + 1][column] === '') {
+      return 'D' + mazeSolution(maze, row++, column);
+    }
+  }
+  return path;
+}
+
+console.log(mazeSolution(maze, 0, 0, []));
