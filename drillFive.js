@@ -1,14 +1,13 @@
 function stringSplitter(str, seperator) {
-  let newArr = [];
-  if (str === '') {
-    return;
+  const index = str.indexOf(seperator);
+  if (index < 0) {
+    return [str];
   }
-  for (let i of str) {
-    if (i == seperator) {
-      i = ',';
-    }
-    newArr.push(i);
-  }
-  return newArr.join('');
+
+  const slice = str.slice(0, index);
+  return [slice].concat(
+    stringSplitter(str.slice(index + seperator.length), seperator)
+  );
 }
+
 console.log(stringSplitter('01/21/2020', '/'));
