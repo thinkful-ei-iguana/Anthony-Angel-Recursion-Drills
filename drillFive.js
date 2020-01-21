@@ -1,14 +1,11 @@
-function stringSplitter(str) {
-  let newArr=[];
-  if (str === "") {
-    return ;
+function stringSplitter(str, seperator) {
+  const index = str.indexOf(seperator);
+  if (index < 0) {
+    return [str];
   }
-  for(i=0; i < str.length; i++) {
-    if (i === "/" ) {
-      i.replace(",")
-    }
-    i.push(newArr)
-  }
-  return newArr
+  const slice = str.slice(0, index);
+  return [slice].concat(
+    stringSplitter(str.slice(index + seperator.length), seperator)
+  );
 }
-console.log(stringSplitter("Hello Hola Bye"))
+console.log(stringSplitter("02/20/2020", "/" ))
